@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import WalletConnect from './WalletConnect';
+import LanguageSwitcher from './LanguageSwitcher';
+import { useLanguage } from '../i18n';
 
 // BNB Logo SVG Component
 const BNBLogo = ({ className = "" }) => (
@@ -16,13 +18,14 @@ const BNBLogo = ({ className = "" }) => (
 
 function Layout({ children, onConnect }) {
   const location = useLocation();
+  const { t } = useLanguage();
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/how-to-play', label: 'How to Play' },
-    { path: '/whitepaper', label: 'Whitepaper' },
-    { path: '/tokenomics', label: 'Tokenomics' },
-    { path: '/play', label: 'Play', highlight: true },
+    { path: '/', labelKey: 'nav.home' },
+    { path: '/how-to-play', labelKey: 'nav.howToPlay' },
+    { path: '/whitepaper', labelKey: 'nav.whitepaper' },
+    { path: '/tokenomics', labelKey: 'nav.tokenomics' },
+    { path: '/play', labelKey: 'nav.play', highlight: true },
   ];
 
   return (
@@ -48,7 +51,7 @@ function Layout({ children, onConnect }) {
                   to={link.path}
                   className="bnb-button py-2 px-6 text-sm"
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </Link>
               ) : (
                 <Link
@@ -60,14 +63,17 @@ function Layout({ children, onConnect }) {
                       : 'text-[#848E9C] hover:text-white'
                   }`}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                 </Link>
               )
             ))}
           </nav>
 
-          {/* Wallet Connect - Far Right */}
-          <WalletConnect onConnect={onConnect} />
+          {/* Right Side - Language Switcher & Wallet */}
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <WalletConnect onConnect={onConnect} />
+          </div>
         </div>
       </header>
 

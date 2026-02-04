@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLanguage } from '../i18n';
 
 // Floating Cells Background Component
 const FloatingCells = () => (
@@ -23,6 +24,7 @@ const BattleAnimation = () => (
 
 function Home({ address, gameResult, setGameResult, playerName, setPlayerName, onStartGame, onGuestPlay }) {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handlePlayClick = () => {
     onStartGame();
@@ -65,12 +67,12 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
                 <h3 className={`font-semibold text-base ${
                   gameResult.type === 'death' ? 'text-[#CF304A]' : 'text-[#03A66D]'
                 }`}>
-                  {gameResult.type === 'death' ? 'Game Over!' : 'Cash Out Success!'}
+                  {gameResult.type === 'death' ? t('home.gameOver') : t('home.cashOutSuccess')}
                 </h3>
                 <p className="text-[#848E9C] text-sm">
                   {gameResult.type === 'death'
-                    ? `You were eaten by ${gameResult.data?.killerName || 'another player'}`
-                    : `You earned ${gameResult.data?.amount?.toLocaleString() || 0} CELL`}
+                    ? t('home.eatenBy', { player: gameResult.data?.killerName || 'another player' })
+                    : t('home.earned', { amount: gameResult.data?.amount?.toLocaleString() || 0 })}
                 </p>
               </div>
               <button
@@ -91,7 +93,7 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
             <div className="animate-slide-up" style={{ marginBottom: '20px' }}>
               <span className="badge badge-yellow text-xs">
                 <span className="w-1.5 h-1.5 bg-[#F0B90B] rounded-full animate-pulse"></span>
-                Live on BSC Testnet
+                {t('home.badge')}
               </span>
             </div>
 
@@ -104,8 +106,8 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
             </h1>
 
             <p className="text-lg text-[#848E9C] max-w-md mx-auto lg:mx-0 animate-slide-up leading-relaxed" style={{ marginBottom: '32px', animationDelay: '0.2s' }}>
-              The classic .io game meets blockchain. Consume other players, grow bigger,
-              and <span className="text-[#F0B90B] font-medium">cash out real CELL tokens</span>.
+              {t('home.subtitle')}
+              <span className="text-[#F0B90B] font-medium">{t('home.subtitleHighlight')}</span>.
             </p>
 
             {/* Battle Animation - Mobile */}
@@ -119,7 +121,7 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
                 type="text"
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
-                placeholder="Enter your name..."
+                placeholder={t('home.enterName')}
                 maxLength={15}
                 style={{ marginBottom: '20px' }}
                 className="bnb-input w-full max-w-md text-center lg:text-left"
@@ -133,7 +135,7 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>
                   </svg>
-                  Play Now
+                  {t('home.playNow')}
                 </button>
 
                 <button
@@ -141,12 +143,12 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
                   className="secondary-button py-3.5 flex items-center justify-center gap-2"
                 >
                   <span>👤</span>
-                  Try Free
+                  {t('home.tryFree')}
                 </button>
               </div>
 
               <p className="text-xs text-[#5E6673] text-center lg:text-left">
-                Guest mode: No wallet needed, no real tokens
+                {t('home.guestModeDesc')}
               </p>
             </div>
           </div>
@@ -156,30 +158,30 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
             <div className="relative animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <div className="glass-card p-5" style={{ marginBottom: '24px' }}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[#848E9C] text-xs font-medium uppercase tracking-wider">Live Battle</span>
+                  <span className="text-[#848E9C] text-xs font-medium uppercase tracking-wider">{t('home.liveBattle')}</span>
                   <span className="badge badge-red text-xs">
                     <span className="w-1.5 h-1.5 bg-[#CF304A] rounded-full animate-pulse"></span>
-                    PvP
+                    {t('home.pvp')}
                   </span>
                 </div>
                 <BattleAnimation />
                 <p className="text-center text-[#5E6673] mt-3 text-xs">
-                  Big fish eats small fish. Stay alert!
+                  {t('home.bigFishEats')}
                 </p>
               </div>
 
               <div className="flex justify-center" style={{ gap: '16px' }}>
                 <div className="glass-card px-5 py-3 text-center glass-card-hover">
                   <div className="text-xl font-bold text-[#F0B90B]">50K</div>
-                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">Entry Fee</div>
+                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">{t('home.entryFeeLabel')}</div>
                 </div>
                 <div className="glass-card px-5 py-3 text-center glass-card-hover">
                   <div className="text-xl font-bold text-[#03A66D]">10s</div>
-                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">Cash Out</div>
+                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">{t('home.cashOutLabel')}</div>
                 </div>
                 <div className="glass-card px-5 py-3 text-center glass-card-hover">
                   <div className="text-xl font-bold text-[#00B8D9]">100%</div>
-                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">Pool Share</div>
+                  <div className="text-[10px] text-[#5E6673] uppercase tracking-wider">{t('home.poolShareLabel')}</div>
                 </div>
               </div>
             </div>

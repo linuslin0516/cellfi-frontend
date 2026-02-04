@@ -5,11 +5,12 @@ import { bscTestnet } from 'wagmi/chains';
 import { formatEther } from 'viem';
 import { CONTRACTS, CELL_TOKEN_ABI } from '../config';
 import { WALLET_LIST, detectInstalledWallets } from '../config/wagmi';
+import { useLanguage } from '../i18n';
 
 /**
  * 錢包選擇彈窗組件 - 使用 Portal 渲染到 body
  */
-function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error }) {
+function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error, t }) {
   const [installedWallets, setInstalledWallets] = useState([]);
 
   // 偵測已安裝的錢包
@@ -128,7 +129,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
               fontWeight: 700,
               color: '#FFFFFF',
             }}>
-              Connect Wallet
+              {t('wallet.connect')}
             </h2>
             <p style={{
               margin: '4px 0 0 0',
@@ -136,8 +137,8 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
               color: '#848E9C',
             }}>
               {installedCount > 0
-                ? `${installedCount} wallet${installedCount > 1 ? 's' : ''} detected`
-                : 'No wallets detected'}
+                ? t('wallet.walletsDetected', { count: installedCount })
+                : t('wallet.noWalletsDetected')}
             </p>
           </div>
           <button
@@ -187,7 +188,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}>
-                ✓ Installed
+                ✓ {t('wallet.installed')}
               </div>
               {sortedWallets
                 .filter(w => w.isInstalled)
@@ -199,6 +200,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
                     isInstalled={true}
                     isPending={isPending}
                     onConnect={onConnect}
+                    t={t}
                   />
                 ))}
             </>
@@ -216,7 +218,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
               }}>
-                Other Wallets
+                {t('wallet.otherWallets')}
               </div>
               {sortedWallets
                 .filter(w => !w.isInstalled)
@@ -228,6 +230,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
                     isInstalled={false}
                     isPending={isPending}
                     onConnect={onConnect}
+                    t={t}
                   />
                 ))}
             </>
@@ -249,14 +252,14 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
                 fontSize: '14px',
                 fontWeight: 600,
               }}>
-                No wallet extension detected
+                {t('wallet.noWalletExtension')}
               </p>
               <p style={{
                 margin: '8px 0 0 0',
                 color: '#848E9C',
                 fontSize: '13px',
               }}>
-                Install a Web3 wallet like MetaMask to connect
+                {t('wallet.installWeb3Wallet')}
               </p>
             </div>
           )}
@@ -296,7 +299,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
               fontSize: '12px',
               textAlign: 'center',
             }}>
-              By connecting, you agree to the Terms of Service
+              {t('wallet.termsOfService')}
             </p>
           </div>
         </div>
@@ -325,7 +328,7 @@ function WalletModal({ isOpen, onClose, connectors, onConnect, isPending, error 
 /**
  * 單個錢包按鈕組件
  */
-function WalletButton({ connector, config, isInstalled, isPending, onConnect }) {
+function WalletButton({ connector, config, isInstalled, isPending, onConnect, t }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -376,7 +379,7 @@ function WalletButton({ connector, config, isInstalled, isPending, onConnect }) 
           fontSize: '12px',
           color: isInstalled ? '#03A66D' : '#848E9C',
         }}>
-          {isInstalled ? 'Ready to connect' : 'Not installed'}
+          {isInstalled ? t('wallet.readyToConnect') : t('wallet.notInstalled')}
         </div>
       </div>
       {isInstalled && (
@@ -400,7 +403,7 @@ function WalletButton({ connector, config, isInstalled, isPending, onConnect }) 
           fontSize: '11px',
           color: '#848E9C',
         }}>
-          Install
+          {t('wallet.install')}
         </div>
       )}
     </button>
@@ -412,6 +415,7 @@ function WalletButton({ connector, config, isInstalled, isPending, onConnect }) 
  * 支援多個錢包選擇 - Binance 風格
  */
 function WalletConnect({ onConnect }) {
+  const { t } = useLanguage();
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -458,7 +462,7 @@ function WalletConnect({ onConnect }) {
     return (
       <div className="glass-card px-4 py-3 flex items-center gap-4">
         <div>
-          <div className="text-xs text-[#848E9C] mb-0.5">Connected</div>
+          <div className="text-xs text-[#848E9C] mb-0.5">{t('wallet.connected')}</div>
           <div className="font-mono text-white text-sm">
             {address.slice(0, 6)}...{address.slice(-4)}
           </div>
@@ -479,7 +483,7 @@ function WalletConnect({ onConnect }) {
             bg-[#CF304A]/10 text-[#CF304A] border border-[#CF304A]/20
             hover:bg-[#CF304A]/20 hover:border-[#CF304A]/40"
         >
-          Disconnect
+          {t('wallet.disconnect')}
         </button>
       </div>
     );
@@ -496,7 +500,7 @@ function WalletConnect({ onConnect }) {
           <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h13a1 1 0 0 0 1-1v-3" />
           <path d="M21 12a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v0z" />
         </svg>
-        {isPending ? 'Connecting...' : 'Connect Wallet'}
+        {isPending ? t('wallet.connecting') : t('wallet.connect')}
       </button>
 
       {/* 錢包選擇彈窗 - Portal 到 body */}
@@ -507,6 +511,7 @@ function WalletConnect({ onConnect }) {
         onConnect={handleConnect}
         isPending={isPending}
         error={error}
+        t={t}
       />
     </>
   );

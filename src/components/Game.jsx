@@ -6,6 +6,7 @@ import { CONTRACTS, CELL_TOKEN_ABI } from '../config';
 import Renderer from '../game/Renderer';
 import Input from '../game/Input';
 import network from '../game/Network';
+import { useLanguage } from '../i18n';
 
 // BNB Logo SVG Component
 const BNBLogo = ({ className = "" }) => (
@@ -108,6 +109,7 @@ const MOCK_RECENT_WINS = [
  * 遊戲主組件 - 整合付款流程
  */
 function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onExit }) {
+  const { t } = useLanguage();
   const canvasRef = useRef(null);
   const rendererRef = useRef(null);
   const inputRef = useRef(null);
@@ -646,7 +648,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
               </svg>
-              <span className="font-medium">Back to Home</span>
+              <span className="font-medium">{t('game.backToHome')}</span>
             </button>
           )}
 
@@ -655,18 +657,18 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
             <div className="flex items-center bg-[#1E2329]/90 backdrop-blur-sm rounded-2xl border border-[#2B3139]" style={{ gap: '28px', padding: '16px 32px' }}>
               <div className="flex items-center" style={{ gap: '10px' }}>
                 <div className="rounded-full bg-[#03A66D] animate-pulse" style={{ width: '10px', height: '10px' }} />
-                <span className="text-[#848E9C]" style={{ fontSize: '14px' }}>Online</span>
+                <span className="text-[#848E9C]" style={{ fontSize: '14px' }}>{t('game.online')}</span>
                 <span className="text-white font-bold" style={{ fontSize: '16px' }}>{onlinePlayers}</span>
               </div>
               <div className="bg-[#2B3139]" style={{ width: '1px', height: '20px' }} />
               <div className="flex items-center" style={{ gap: '10px' }}>
                 <BNBLogo className="text-[#F0B90B]" style={{ width: '18px', height: '18px' }} />
-                <span className="text-[#848E9C] hidden sm:inline" style={{ fontSize: '14px' }}>Pool</span>
+                <span className="text-[#848E9C] hidden sm:inline" style={{ fontSize: '14px' }}>{t('game.pool')}</span>
                 <span className="text-[#F0B90B] font-bold" style={{ fontSize: '16px' }}>{gamePool.toLocaleString()}</span>
               </div>
               <div className="bg-[#2B3139] hidden sm:block" style={{ width: '1px', height: '20px' }} />
               <div className="hidden sm:flex items-center" style={{ gap: '10px' }}>
-                <span className="text-[#848E9C]" style={{ fontSize: '14px' }}>Volume</span>
+                <span className="text-[#848E9C]" style={{ fontSize: '14px' }}>{t('game.volume')}</span>
                 <span className="text-white font-bold" style={{ fontSize: '16px' }}>{(totalVolume / 1000000).toFixed(1)}M</span>
               </div>
             </div>
@@ -676,48 +678,48 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
             {/* 左側：玩法演示 */}
             {paymentStep === 'idle' && !message && (
               <div className="hidden lg:block shrink-0" style={{ width: '320px' }}>
-                <h3 className="text-[#848E9C] text-sm font-medium uppercase tracking-wider" style={{ marginBottom: '24px' }}>How to Play</h3>
+                <h3 className="text-[#848E9C] text-sm font-medium uppercase tracking-wider" style={{ marginBottom: '24px' }}>{t('game.howToPlay')}</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/* Eat Food */}
                   <div className="bg-[#1E2329] rounded-xl border border-[#2B3139]" style={{ padding: '20px' }}>
                     <div className="flex items-center gap-3" style={{ marginBottom: '16px' }}>
                       <span className="text-xl">🍽️</span>
-                      <span className="text-white font-semibold text-base">Eat Food</span>
+                      <span className="text-white font-semibold text-base">{t('game.demo.eatFood')}</span>
                     </div>
                     <MiniEatDemo />
-                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>Collect dots to grow bigger</p>
+                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>{t('game.demo.eatFoodDesc')}</p>
                   </div>
 
                   {/* Split Attack */}
                   <div className="bg-[#1E2329] rounded-xl border border-[#2B3139]" style={{ padding: '20px' }}>
                     <div className="flex items-center gap-3" style={{ marginBottom: '16px' }}>
                       <span className="text-xl">💥</span>
-                      <span className="text-white font-semibold text-base">Split Attack</span>
+                      <span className="text-white font-semibold text-base">{t('game.demo.splitAttack')}</span>
                       <kbd className="ml-auto px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] text-xs font-mono">Space</kbd>
                     </div>
                     <MiniSplitDemo />
-                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>Split to catch smaller players</p>
+                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>{t('game.demo.splitAttackDesc')}</p>
                   </div>
 
                   {/* Eat Players */}
                   <div className="bg-[#1E2329] rounded-xl border border-[#2B3139]" style={{ padding: '20px' }}>
                     <div className="flex items-center gap-3" style={{ marginBottom: '16px' }}>
                       <span className="text-xl">👾</span>
-                      <span className="text-white font-semibold text-base">Eat Players</span>
+                      <span className="text-white font-semibold text-base">{t('game.demo.eatPlayers')}</span>
                     </div>
                     <MiniEatPlayerDemo />
-                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>Consume players, steal their tokens!</p>
+                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>{t('game.demo.eatPlayersDesc')}</p>
                   </div>
 
                   {/* Cash Out */}
                   <div className="bg-[#1E2329] rounded-xl border border-[#2B3139]" style={{ padding: '20px' }}>
                     <div className="flex items-center gap-3" style={{ marginBottom: '16px' }}>
                       <span className="text-xl">💰</span>
-                      <span className="text-white font-semibold text-base">Cash Out</span>
+                      <span className="text-white font-semibold text-base">{t('game.demo.cashOutTitle')}</span>
                       <kbd className="ml-auto px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] text-xs font-mono">Hold C</kbd>
                     </div>
                     <MiniCashOutDemo />
-                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>Hold C for 10s to withdraw earnings</p>
+                    <p className="text-[#5E6673] text-sm" style={{ marginTop: '14px' }}>{t('game.demo.cashOutDesc')}</p>
                   </div>
                 </div>
               </div>
@@ -821,7 +823,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                           border: '1px solid #3B4149'
                         }}
                       >
-                        🚀 Coming Soon
+                        🚀 {t('game.comingSoon')}
                       </button>
                     ) : (
                       <button
@@ -829,7 +831,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="bnb-button w-full"
                         style={{ fontSize: '20px', padding: '22px 32px' }}
                       >
-                        {message ? '🔄 Play Again' : '🎮 Start Game'}
+                        {message ? `🔄 ${t('game.playAgain')}` : `🎮 ${t('game.startGame')}`}
                       </button>
                     )
                   )}
@@ -843,7 +845,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-[#F0B90B] hover:bg-[#F0B90B]/80 disabled:bg-gray-600 rounded-xl text-black font-bold transition"
                         style={{ fontSize: '18px', padding: '22px 32px' }}
                       >
-                        {isApproving || isApproveConfirming ? '⏳ Approving...' : '1️⃣ Approve CELL'}
+                        {isApproving || isApproveConfirming ? `⏳ ${t('game.payment.approving')}` : `1️⃣ ${t('game.payment.approveCELL')}`}
                       </button>
                       <button
                         onClick={handleCancel}
@@ -851,7 +853,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-transparent hover:bg-[#2B3139] border border-[#2B3139] rounded-xl text-[#848E9C] font-medium transition"
                         style={{ padding: '16px 24px' }}
                       >
-                        Cancel
+                        {t('game.payment.cancel')}
                       </button>
                     </>
                   )}
@@ -865,7 +867,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-[#03A66D] hover:bg-[#03A66D]/80 disabled:bg-gray-600 rounded-xl text-white font-bold transition"
                         style={{ fontSize: '18px', padding: '22px 32px' }}
                       >
-                        {isTransferring || isTransferConfirming ? '⏳ Processing...' : `💰 Pay ${entryFee.toLocaleString()} CELL & Join`}
+                        {isTransferring || isTransferConfirming ? `⏳ ${t('game.payment.processing')}` : `💰 ${t('game.payment.payAndJoin', { amount: entryFee.toLocaleString() })}`}
                       </button>
                       <button
                         onClick={handleCancel}
@@ -873,7 +875,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-transparent hover:bg-[#2B3139] border border-[#2B3139] rounded-xl text-[#848E9C] font-medium transition"
                         style={{ padding: '16px 24px' }}
                       >
-                        Cancel
+                        {t('game.payment.cancel')}
                       </button>
                     </>
                   )}
@@ -881,7 +883,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                   {/* Joining 步驟 */}
                   {paymentStep === 'joining' && (
                     <div className="text-[#F0B90B] font-bold animate-pulse" style={{ padding: '22px', fontSize: '20px' }}>
-                      🎮 Joining game...
+                      🎮 {t('game.payment.joining')}
                     </div>
                   )}
                 </div>
@@ -889,26 +891,26 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                 {/* 錢包未連接提示 */}
                 {!address && paymentStep === 'idle' && (
                   <p className="text-[#848E9C]" style={{ marginTop: '28px', fontSize: '15px' }}>
-                    Connect your wallet to play
+                    {t('game.connectWallet')}
                   </p>
                 )}
 
                 {/* 快捷鍵提示 */}
                 {paymentStep === 'idle' && (
                   <div className="border-t border-[#2B3139]" style={{ marginTop: '36px', paddingTop: '36px' }}>
-                    <p className="text-[#848E9C] text-xs uppercase tracking-wider" style={{ marginBottom: '20px' }}>Controls</p>
+                    <p className="text-[#848E9C] text-xs uppercase tracking-wider" style={{ marginBottom: '20px' }}>{t('game.controls')}</p>
                     <div className="flex justify-center" style={{ gap: '40px', fontSize: '14px' }}>
                       <div className="flex items-center gap-3">
                         <kbd className="bg-[#2B3139] rounded-lg text-white font-mono" style={{ padding: '12px 16px', fontSize: '13px' }}>Mouse</kbd>
-                        <span className="text-[#848E9C]">Move</span>
+                        <span className="text-[#848E9C]">{t('game.move')}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <kbd className="bg-[#2B3139] rounded-lg text-white font-mono" style={{ padding: '12px 16px', fontSize: '13px' }}>Space</kbd>
-                        <span className="text-[#848E9C]">Split</span>
+                        <span className="text-[#848E9C]">{t('game.split')}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <kbd className="bg-[#2B3139] rounded-lg text-[#F0B90B] font-mono" style={{ padding: '12px 16px', fontSize: '13px' }}>C</kbd>
-                        <span className="text-[#848E9C]">Cash Out</span>
+                        <span className="text-[#848E9C]">{t('game.cashOut')}</span>
                       </div>
                     </div>
                   </div>
@@ -919,11 +921,11 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                   <div className="grid grid-cols-2" style={{ marginTop: '32px', gap: '20px' }}>
                     <div className="bg-[#0B0E11] rounded-xl text-center border border-[#2B3139]" style={{ padding: '24px 20px' }}>
                       <div className="text-[#F0B90B] font-bold" style={{ fontSize: '28px' }}>50K</div>
-                      <div className="text-[#5E6673]" style={{ fontSize: '13px', marginTop: '6px' }}>Entry Fee</div>
+                      <div className="text-[#5E6673]" style={{ fontSize: '13px', marginTop: '6px' }}>{t('game.entryFee')}</div>
                     </div>
                     <div className="bg-[#0B0E11] rounded-xl text-center border border-[#2B3139]" style={{ padding: '24px 20px' }}>
                       <div className="text-[#03A66D] font-bold" style={{ fontSize: '28px' }}>100%</div>
-                      <div className="text-[#5E6673]" style={{ fontSize: '13px', marginTop: '6px' }}>Pool Share</div>
+                      <div className="text-[#5E6673]" style={{ fontSize: '13px', marginTop: '6px' }}>{t('game.poolShare')}</div>
                     </div>
                   </div>
                 )}
@@ -937,7 +939,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                 <div className="bg-[#1E2329]/90 backdrop-blur-sm rounded-xl border border-[#2B3139]" style={{ padding: '24px' }}>
                   <div className="flex items-center" style={{ gap: '12px', marginBottom: '20px' }}>
                     <span style={{ fontSize: '22px' }}>🏆</span>
-                    <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>Leaderboard</h3>
+                    <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>{t('game.leaderboard')}</h3>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {MOCK_LEADERBOARD.map((player) => (
@@ -963,7 +965,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                 <div className="bg-[#1E2329]/90 backdrop-blur-sm rounded-xl border border-[#2B3139]" style={{ padding: '24px' }}>
                   <div className="flex items-center" style={{ gap: '12px', marginBottom: '20px' }}>
                     <span style={{ fontSize: '22px' }}>💰</span>
-                    <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>Recent Wins</h3>
+                    <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>{t('game.recentWins')}</h3>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     {MOCK_RECENT_WINS.map((win, idx) => (
@@ -986,8 +988,8 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                   <div className="flex items-start" style={{ gap: '14px' }}>
                     <span style={{ fontSize: '22px' }}>⚠️</span>
                     <div>
-                      <div className="text-[#CF304A] font-medium" style={{ fontSize: '15px' }}>Risk Warning</div>
-                      <div className="text-[#848E9C]" style={{ fontSize: '13px', marginTop: '6px', lineHeight: '1.5' }}>If eaten, you lose all tokens from this session. Play carefully!</div>
+                      <div className="text-[#CF304A] font-medium" style={{ fontSize: '15px' }}>{t('game.riskWarning')}</div>
+                      <div className="text-[#848E9C]" style={{ fontSize: '13px', marginTop: '6px', lineHeight: '1.5' }}>{t('game.riskWarningDesc')}</div>
                     </div>
                   </div>
                 </div>
