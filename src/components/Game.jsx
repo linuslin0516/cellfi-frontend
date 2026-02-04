@@ -732,8 +732,8 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                 <div className="flex items-center justify-center" style={{ gap: '20px', marginBottom: '40px' }}>
                   <BNBLogo className="text-[#F0B90B] animate-float" style={{ width: '64px', height: '64px' }} />
                   <h1 style={{ fontSize: '52px', fontWeight: '900' }}>
-                    <span className="bnb-gradient">BSC</span>
-                    <span className="text-white">.IO</span>
+                    <span className="bnb-gradient">CELL</span>
+                    <span className="text-white">FI</span>
                   </h1>
                 </div>
 
