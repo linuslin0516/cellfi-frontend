@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, useChainId, useWalletClient } from 'wagmi';
+import { useAccount, useReadContract, useChainId } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
 import { bscTestnet } from 'wagmi/chains';
 import { CONTRACTS, CELL_TOKEN_ABI, SERVER_URL } from '../config';
@@ -115,8 +115,6 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
   const { isConnected, connector } = useAccount();
   const chainId = useChainId();
   const isWrongNetwork = chainId !== bscTestnet.id;
-  const { data: walletClient } = useWalletClient();
-
   // 讀取代幣餘額
   const { data: tokenBalance, refetch: refetchBalance } = useReadContract({
     address: CONTRACTS.CELL_TOKEN,
@@ -141,21 +139,12 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     },
   });
 
-  // 授權代幣
-  const { writeContract: approve, data: approveHash, isPending: isApproving, reset: resetApprove } = useWriteContract();
-  const { isLoading: isApproveConfirming, isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({
-    hash: approveHash,
-  });
-
-  // 轉帳入場費
-  const { writeContract: transfer, data: transferHash, isPending: isTransferring, reset: resetTransfer } = useWriteContract();
-  const { isLoading: isTransferConfirming, isSuccess: isTransferSuccess } = useWaitForTransactionReceipt({
-    hash: transferHash,
-  });
+  // 授權/轉帳處理狀態
+  const [isApproving, setIsApproving] = useState(false);
 
   const hasEnoughBalance = tokenBalance && tokenBalance >= parseEther(entryFee.toString());
   const hasEnoughAllowance = allowance && allowance >= parseEther(entryFee.toString());
-  const isProcessing = isApproving || isApproveConfirming || isTransferring || isTransferConfirming;
+  const isProcessing = isApproving;
 
   // 獲取伺服器配置
   useEffect(() => {
@@ -215,41 +204,9 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     return () => clearInterval(interval);
   }, []);
 
-  // 當授權成功後刷新授權額度並自動進入轉帳步驟
-  useEffect(() => {
-    if (isApproveSuccess && paymentStep === 'approve') {
-      refetchAllowance();
-      setPaymentStep('transfer');
-      setMessage('Approved! Now pay the entry fee.');
-      setMessageType('success');
-    }
-  }, [isApproveSuccess, paymentStep, refetchAllowance]);
 
   // 追蹤當前交易的 hash
   const [currentTxHash, setCurrentTxHash] = useState(null);
-
-  // 當有新的 transferHash 時更新
-  useEffect(() => {
-    if (transferHash && transferHash !== currentTxHash) {
-      console.log('[DEBUG] New transfer hash:', transferHash);
-      setCurrentTxHash(transferHash);
-    }
-  }, [transferHash, currentTxHash]);
-
-  // 當轉帳成功後，加入遊戲
-  useEffect(() => {
-    if (isTransferSuccess && currentTxHash && paymentStep === 'transfer') {
-      setPaymentStep('joining');
-      setMessage('Payment successful! Joining game...');
-      setMessageType('success');
-
-      console.log('[DEBUG] Joining with tx hash:', currentTxHash);
-      setTimeout(() => {
-        network.joinWithPayment(address, playerName, currentTxHash);
-        refetchBalance();
-      }, 1000);
-    }
-  }, [isTransferSuccess, currentTxHash, paymentStep, address, playerName, refetchBalance]);
 
   // 初始化遊戲
   useEffect(() => {
@@ -318,8 +275,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
       setRoomType(data.roomType || null);
       if (data.leaderboard) setLeaderboard(data.leaderboard);
       if (data.recentWins) setRecentWins(data.recentWins);
-      resetApprove?.();
-      resetTransfer?.();
+      setIsApproving(false);
       setSystemMessage(`Joined! Initial mass: ${data.initialMass?.toLocaleString() || '?'} | Pool: ${data.gamePool?.toLocaleString() || '?'} CELL`);
     };
 
@@ -433,17 +389,97 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     }
   };
 
-  // 執行授權
-  const handleApprove = () => {
-    if (!escrowAddress) return;
-    console.log('[DEBUG] Approving spender:', escrowAddress);
-    approve({
-      address: CONTRACTS.CELL_TOKEN,
-      abi: CELL_TOKEN_ABI,
-      functionName: 'approve',
-      args: [escrowAddress, parseEther('1000000000')],
-      chainId: bscTestnet.id,
-    });
+  // 執行授權 - 使用原生方式繞過 wagmi 問題
+  const handleApprove = async () => {
+    if (!escrowAddress || !address) return;
+
+    console.log('[DEBUG] ====== DIRECT APPROVE (bypassing wagmi) ======');
+    console.log('[DEBUG] Spender (escrow):', escrowAddress);
+    console.log('[DEBUG] Token contract:', CONTRACTS.CELL_TOKEN);
+
+    setIsApproving(true);
+    setMessage('Waiting for wallet approval...');
+    setMessageType('info');
+
+    try {
+      let provider;
+      if (connector) {
+        provider = await connector.getProvider();
+        console.log('[DEBUG] Using connector provider:', connector.name);
+      }
+      if (!provider) {
+        provider = window.ethereum;
+        console.log('[DEBUG] Fallback to window.ethereum');
+      }
+      if (!provider) {
+        setMessage('No wallet found!');
+        setMessageType('error');
+        setIsApproving(false);
+        return;
+      }
+
+      // ERC20 approve(address spender, uint256 amount)
+      const approveFunctionSignature = '0x095ea7b3';
+      const spenderPadded = escrowAddress.toLowerCase().replace('0x', '').padStart(64, '0');
+      const amountHex = parseEther('1000000000').toString(16).padStart(64, '0');
+      const data = approveFunctionSignature + spenderPadded + amountHex;
+
+      console.log('[DEBUG] Approve tx data:', data);
+
+      const txHash = await provider.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          from: address,
+          to: CONTRACTS.CELL_TOKEN,
+          data: data,
+          chainId: '0x61',
+        }],
+      });
+
+      console.log('[DEBUG] Approve tx sent! Hash:', txHash);
+      setMessage('Approve transaction sent! Waiting for confirmation...');
+
+      // 輪詢等待確認
+      const checkTx = async () => {
+        try {
+          const receipt = await provider.request({
+            method: 'eth_getTransactionReceipt',
+            params: [txHash],
+          });
+
+          if (receipt && receipt.status === '0x1') {
+            console.log('[DEBUG] Approve confirmed!');
+            await refetchAllowance();
+            setIsApproving(false);
+            setPaymentStep('transfer');
+            setMessage('Approved! Now pay the entry fee.');
+            setMessageType('success');
+          } else if (receipt && receipt.status === '0x0') {
+            setMessage('Approve transaction failed!');
+            setMessageType('error');
+            setIsApproving(false);
+          } else {
+            setTimeout(checkTx, 2000);
+          }
+        } catch (err) {
+          console.error('[DEBUG] Check approve receipt error:', err);
+          setTimeout(checkTx, 3000);
+        }
+      };
+
+      setTimeout(checkTx, 3000);
+
+    } catch (error) {
+      console.error('[DEBUG] Approve error:', error);
+      const msg = error?.message || 'Unknown error';
+      if (msg.includes('rejected') || msg.includes('denied') || msg.includes('cancel')) {
+        setMessage('Approval rejected by user');
+      } else {
+        setMessage('Approve failed: ' + msg);
+      }
+      setMessageType('error');
+      setIsApproving(false);
+    }
   };
 
   // 執行轉帳 - 使用原生方式繞過 wagmi 緩存
@@ -544,8 +580,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     setPaymentStep('idle');
     setMessage('');
     setCurrentTxHash(null);
-    resetApprove?.();
-    resetTransfer?.();
+    setIsApproving(false);
   };
 
   return (
@@ -871,7 +906,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-[#F0B90B] hover:bg-[#F0B90B]/80 disabled:bg-gray-600 rounded-xl text-black font-bold transition"
                         style={{ fontSize: '18px', padding: '22px 32px' }}
                       >
-                        {isApproving || isApproveConfirming ? `⏳ ${t('game.payment.approving')}` : `1️⃣ ${t('game.payment.approveCELL')}`}
+                        {isApproving ? `⏳ ${t('game.payment.approving')}` : `1️⃣ ${t('game.payment.approveCELL')}`}
                       </button>
                       <button
                         onClick={handleCancel}
@@ -893,7 +928,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                         className="w-full bg-[#03A66D] hover:bg-[#03A66D]/80 disabled:bg-gray-600 rounded-xl text-white font-bold transition"
                         style={{ fontSize: '18px', padding: '22px 32px' }}
                       >
-                        {isTransferring || isTransferConfirming ? `⏳ ${t('game.payment.processing')}` : `💰 ${t('game.payment.payAndJoin', { amount: entryFee.toLocaleString() })}`}
+                        {`💰 ${t('game.payment.payAndJoin', { amount: entryFee.toLocaleString() })}`}
                       </button>
                       <button
                         onClick={handleCancel}
