@@ -200,7 +200,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     fetchRecentWins();
 
     // 定期更新 pool
-    const interval = setInterval(fetchPool, 5000);
+    const interval = setInterval(fetchPool, 15000);
     return () => clearInterval(interval);
   }, []);
 
