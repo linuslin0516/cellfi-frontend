@@ -314,7 +314,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
 
     network.onRecentWin = (data) => {
       setRecentWins(prev => [
-        { name: data.name, amount: data.amount, time: 'Just now', isGuest: data.isGuest },
+        { name: data.name, amount: data.amount, time: 'Just now', isGuest: data.isGuest, address: data.address },
         ...prev.slice(0, 9)
       ]);
     };
@@ -1037,7 +1037,14 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                           <span className="text-white" style={{ fontSize: '14px' }}>{win.isGuest ? 'G' : '✓'}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-white font-medium truncate" style={{ fontSize: '15px' }}>{win.name}</div>
+                          <div className="text-white font-medium truncate" style={{ fontSize: '15px' }}>
+                            {win.name}
+                            {win.address && !win.address.startsWith('guest_') && (
+                              <span className="text-[#5E6673] ml-1" style={{ fontSize: '12px' }}>
+                                ({win.address.slice(0, 6)}...{win.address.slice(-4)})
+                              </span>
+                            )}
+                          </div>
                           <div className="text-[#5E6673]" style={{ fontSize: '13px' }}>{win.time || win.timeAgo || 'Just now'}</div>
                         </div>
                         <div className="text-[#03A66D] font-bold" style={{ fontSize: '15px' }}>+{win.amount >= 1000 ? (win.amount / 1000).toFixed(0) + 'K' : win.amount}</div>
