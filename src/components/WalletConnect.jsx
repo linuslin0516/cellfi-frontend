@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useAccount, useConnect, useDisconnect, useBalance, useReadContract } from 'wagmi';
-import { bscTestnet } from 'wagmi/chains';
+import { bsc } from 'wagmi/chains';
 import { formatEther } from 'viem';
 import { CONTRACTS, CELL_TOKEN_ABI } from '../config';
 import { WALLET_LIST, detectInstalledWallets } from '../config/wagmi';
@@ -421,7 +421,7 @@ function WalletConnect({ onConnect }) {
   const { disconnect } = useDisconnect();
   const { data: balance } = useBalance({
     address,
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && !!address,
     },
@@ -433,7 +433,7 @@ function WalletConnect({ onConnect }) {
     abi: CELL_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [address],
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && address && CONTRACTS.CELL_TOKEN !== '0x0000000000000000000000000000000000000000',
     },

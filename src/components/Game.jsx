@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAccount, useReadContract, useChainId } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
-import { bscTestnet } from 'wagmi/chains';
+import { bsc } from 'wagmi/chains';
 import { CONTRACTS, CELL_TOKEN_ABI, SERVER_URL } from '../config';
 import Renderer from '../game/Renderer';
 import Input from '../game/Input';
@@ -114,14 +114,14 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
   // Wagmi hooks
   const { isConnected, connector } = useAccount();
   const chainId = useChainId();
-  const isWrongNetwork = chainId !== bscTestnet.id;
+  const isWrongNetwork = chainId !== bsc.id;
   // 讀取代幣餘額
   const { data: tokenBalance, refetch: refetchBalance } = useReadContract({
     address: CONTRACTS.CELL_TOKEN,
     abi: CELL_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [address],
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && address && CONTRACTS.CELL_TOKEN !== '0x0000000000000000000000000000000000000000',
     },
@@ -133,7 +133,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     abi: CELL_TOKEN_ABI,
     functionName: 'allowance',
     args: [address, escrowAddress],
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && address && escrowAddress && CONTRACTS.CELL_TOKEN !== '0x0000000000000000000000000000000000000000',
     },
@@ -360,7 +360,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     }
 
     if (isWrongNetwork) {
-      setMessage('Please switch to BSC Testnet (Chain ID: 97)');
+      setMessage('Please switch to BSC (Chain ID: 56)');
       setMessageType('error');
       return;
     }
@@ -432,7 +432,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
           from: address,
           to: CONTRACTS.CELL_TOKEN,
           data: data,
-          chainId: '0x61',
+          chainId: '0x38',
         }],
       });
 
@@ -528,7 +528,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
           from: address,
           to: CONTRACTS.CELL_TOKEN,
           data: data,
-          chainId: '0x61', // BSC Testnet = 97 = 0x61
+          chainId: '0x38', // BSC Mainnet = 56 = 0x38
         }],
       });
 

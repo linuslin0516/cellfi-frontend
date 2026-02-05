@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, useChainId } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
-import { bscTestnet } from 'wagmi/chains';
+import { bsc } from 'wagmi/chains';
 import { CONTRACTS, AGAR_TOKEN_ABI, SERVER_URL } from '../config';
 import network from '../game/Network';
 
@@ -20,7 +20,7 @@ function TokenActions({ onJoinGame }) {
   const [joinStatus, setJoinStatus] = useState('');
 
   // 檢查是否在正確的網路
-  const isWrongNetwork = chainId !== bscTestnet.id;
+  const isWrongNetwork = chainId !== bsc.id;
 
   // 讀取代幣餘額
   const { data: tokenBalance, refetch: refetchBalance } = useReadContract({
@@ -28,7 +28,7 @@ function TokenActions({ onJoinGame }) {
     abi: AGAR_TOKEN_ABI,
     functionName: 'balanceOf',
     args: [address],
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && address && CONTRACTS.AGAR_TOKEN !== '0x0000000000000000000000000000000000000000',
     },
@@ -40,7 +40,7 @@ function TokenActions({ onJoinGame }) {
     abi: AGAR_TOKEN_ABI,
     functionName: 'allowance',
     args: [address, escrowAddress],
-    chainId: bscTestnet.id,
+    chainId: bsc.id,
     query: {
       enabled: isConnected && address && escrowAddress && CONTRACTS.AGAR_TOKEN !== '0x0000000000000000000000000000000000000000',
     },
@@ -125,7 +125,7 @@ function TokenActions({ onJoinGame }) {
       abi: AGAR_TOKEN_ABI,
       functionName: 'approve',
       args: [escrowAddress, parseEther('1000000000')], // 授權大量代幣
-      chainId: bscTestnet.id,
+      chainId: bsc.id,
     });
   };
 
@@ -142,7 +142,7 @@ function TokenActions({ onJoinGame }) {
       abi: AGAR_TOKEN_ABI,
       functionName: 'transfer',
       args: [escrowAddress, entryFeeWei],
-      chainId: bscTestnet.id,
+      chainId: bsc.id,
     });
   };
 
@@ -178,7 +178,7 @@ function TokenActions({ onJoinGame }) {
               {/* 網路警告 */}
               {isWrongNetwork && (
                 <div className="bg-red-900/50 border border-red-500 p-3 rounded text-red-300 text-sm">
-                  ⚠️ 請切換到 BSC Testnet (Chain ID: 97)
+                  ⚠️ 請切換到 BSC (Chain ID: 56)
                 </div>
               )}
 

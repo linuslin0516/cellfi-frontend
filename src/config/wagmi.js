@@ -1,5 +1,5 @@
 import { http, createConfig } from 'wagmi';
-import { bsc, bscTestnet } from 'wagmi/chains';
+import { bsc } from 'wagmi/chains';
 import { injected } from 'wagmi/connectors';
 
 /**
@@ -433,10 +433,9 @@ function createConnectors() {
 }
 
 export const config = createConfig({
-  chains: [bscTestnet, bsc],
+  chains: [bsc],
   connectors: createConnectors(),
   transports: {
-    [bscTestnet.id]: http(),
     [bsc.id]: http(),
   },
 });
