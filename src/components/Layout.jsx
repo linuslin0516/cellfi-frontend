@@ -3,17 +3,9 @@ import WalletConnect from './WalletConnect';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useLanguage } from '../i18n';
 
-// BNB Logo SVG Component
-const BNBLogo = ({ className = "" }) => (
-  <svg className={className} viewBox="0 0 126.61 126.61" fill="currentColor">
-    <g>
-      <path d="M38.73,53.2l24.59-24.58,24.6,24.6,14.3-14.31L63.32,0,24.42,38.9Z"/>
-      <path d="M0,63.31l14.3-14.31,14.31,14.31L14.3,77.61Z"/>
-      <path d="M38.73,73.41,63.32,98l24.6-24.6,14.31,14.29h0L63.32,126.61,24.42,87.71l-.01-.01Z"/>
-      <path d="M97.99,63.31l14.3-14.31,14.32,14.31-14.31,14.3Z"/>
-      <path d="M77.83,63.3h0L63.32,48.78,52.59,59.51l-1.24,1.23-2.54,2.54,14.51,14.52L77.83,63.32Z"/>
-    </g>
-  </svg>
+// CellFi Logo Component
+const CellFiLogo = ({ className = "", style = {} }) => (
+  <img src="/cellfi-logo.svg" alt="CellFi" className={className} style={style} />
 );
 
 function Layout({ children, onConnect }) {
@@ -35,7 +27,7 @@ function Layout({ children, onConnect }) {
         <div className="w-full px-4 md:px-8 py-4 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <BNBLogo className="w-8 h-8 text-[#F0B90B]" />
+            <CellFiLogo className="w-8 h-8" />
             <span className="text-xl font-bold">
               <span className="text-[#F0B90B]">CELL</span>
               <span className="text-white">FI</span>

@@ -1,17 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="body" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B0E11"/>
+      <stop offset="100%" style="stop-color:#1A1D23"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#FFD54F"/>
       <stop offset="100%" style="stop-color:#F0B90B"/>
     </linearGradient>
+    <radialGradient id="outerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#F0B90B;stop-opacity:0.4"/>
+      <stop offset="60%" style="stop-color:#F0B90B;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#F0B90B;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
+
   <!-- Background -->
-  <rect width="512" height="512" rx="96" fill="#0B0E11"/>
-  <!-- Pac-man body -->
-  <path d="M256,56 A200,200 0 1,1 256,456 A200,200 0 1,1 256,56 Z" fill="url(#body)"/>
-  <!-- Mouth cutout -->
-  <path d="M256,256 L456,156 L456,356 Z" fill="#0B0E11"/>
-  <!-- Eye -->
-  <circle cx="300" cy="170" r="28" fill="#0B0E11"/>
-  <circle cx="308" cy="162" r="8" fill="#FFFFFF"/>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- Outer glow -->
+  <circle cx="256" cy="256" r="200" fill="url(#outerGlow)" filter="url(#softGlow)"/>
+
+  <!-- Main cell -->
+  <circle cx="256" cy="256" r="120" fill="url(#gold)" filter="url(#glow)" opacity="0.95"/>
+
+  <!-- Cell highlight -->
+  <circle cx="220" cy="220" r="35" fill="white" opacity="0.2"/>
+  <circle cx="210" cy="210" r="15" fill="white" opacity="0.15"/>
+
+  <!-- Small orbiting cells -->
+  <circle cx="130" cy="160" r="16" fill="#00B8D9" opacity="0.7" filter="url(#glow)"/>
+  <circle cx="126" cy="156" r="4" fill="white" opacity="0.2"/>
+
+  <circle cx="380" cy="220" r="22" fill="#00B8D9" opacity="0.65" filter="url(#glow)"/>
+  <circle cx="375" cy="215" r="6" fill="white" opacity="0.2"/>
+
+  <circle cx="130" cy="310" r="12" fill="#CF304A" opacity="0.6" filter="url(#glow)"/>
+
+  <circle cx="350" cy="130" r="10" fill="#F0B90B" opacity="0.5"/>
+  <circle cx="170" cy="390" r="9" fill="#F0B90B" opacity="0.4"/>
+
+  <circle cx="370" cy="350" r="11" fill="#03A66D" opacity="0.55"/>
+  <circle cx="310" cy="400" r="8" fill="#03A66D" opacity="0.45"/>
+
+  <!-- Tiny sparkle dots -->
+  <circle cx="160" cy="120" r="3" fill="#F0B90B" opacity="0.6"/>
+  <circle cx="400" cy="160" r="3" fill="#F0B90B" opacity="0.4"/>
+  <circle cx="100" cy="260" r="2" fill="#F0B90B" opacity="0.5"/>
+  <circle cx="420" cy="300" r="2" fill="#F0B90B" opacity="0.3"/>
 </svg>

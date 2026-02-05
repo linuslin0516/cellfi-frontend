@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B0E11"/>
+      <stop offset="100%" style="stop-color:#1E2329"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0B90B"/>
+      <stop offset="100%" style="stop-color:#FFD54F"/>
+    </linearGradient>
+    <linearGradient id="cellGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0B90B;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#F0B90B;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="15" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" rx="40" fill="url(#bg)"/>
+
+  <!-- Glow effect behind main cell -->
+  <circle cx="200" cy="170" r="100" fill="url(#cellGlow)" filter="url(#softGlow)"/>
+
+  <!-- Main cell (player) -->
+  <circle cx="200" cy="170" r="70" fill="url(#gold)" filter="url(#glow)" opacity="0.95"/>
+
+  <!-- Cell highlight -->
+  <circle cx="180" cy="150" r="20" fill="white" opacity="0.2"/>
+
+  <!-- Small food dots around -->
+  <circle cx="100" cy="100" r="8" fill="#03A66D" opacity="0.7"/>
+  <circle cx="310" cy="130" r="6" fill="#00B8D9" opacity="0.6"/>
+  <circle cx="85" cy="220" r="7" fill="#CF304A" opacity="0.5"/>
+  <circle cx="320" cy="240" r="5" fill="#03A66D" opacity="0.6"/>
+  <circle cx="130" cy="280" r="6" fill="#00B8D9" opacity="0.5"/>
+  <circle cx="280" cy="90" r="7" fill="#F0B90B" opacity="0.4"/>
+
+  <!-- Small prey cell -->
+  <circle cx="310" cy="190" r="20" fill="#00B8D9" opacity="0.6"/>
+  <circle cx="305" cy="185" r="5" fill="white" opacity="0.15"/>
+
+  <!-- Text: CELLFI -->
+  <text x="200" y="330" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="56" letter-spacing="3">
+    <tspan fill="#F0B90B">CELL</tspan><tspan fill="#FFFFFF">FI</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="200" y="365" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="16" fill="#848E9C" letter-spacing="4">
+    EAT . GROW . EARN
+  </text>
+</svg>

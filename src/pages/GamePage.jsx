@@ -3,17 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import Game from '../components/Game';
 import WalletConnect from '../components/WalletConnect';
 
-// BNB Logo SVG Component
-const BNBLogo = ({ className = "" }) => (
-  <svg className={className} viewBox="0 0 126.61 126.61" fill="currentColor">
-    <g>
-      <path d="M38.73,53.2l24.59-24.58,24.6,24.6,14.3-14.31L63.32,0,24.42,38.9Z"/>
-      <path d="M0,63.31l14.3-14.31,14.31,14.31L14.3,77.61Z"/>
-      <path d="M38.73,73.41,63.32,98l24.6-24.6,14.31,14.29h0L63.32,126.61,24.42,87.71l-.01-.01Z"/>
-      <path d="M97.99,63.31l14.3-14.31,14.32,14.31-14.31,14.3Z"/>
-      <path d="M77.83,63.3h0L63.32,48.78,52.59,59.51l-1.24,1.23-2.54,2.54,14.51,14.52L77.83,63.32Z"/>
-    </g>
-  </svg>
+// CellFi Logo Component
+const CellFiLogo = ({ className = "", style = {} }) => (
+  <img src="/cellfi-logo.svg" alt="CellFi" className={className} style={style} />
 );
 
 // ========== ANIMATED DEMO COMPONENTS ==========
@@ -50,7 +42,7 @@ const EatPlayerDemo = () => (
     </div>
     {/* Token transfer effect */}
     <div className="absolute top-1/2 -translate-y-1/2 right-16 animate-token-transfer opacity-0">
-      <BNBLogo className="w-4 h-4 text-[#F0B90B]" />
+      <CellFiLogo className="w-4 h-4" />
     </div>
     {/* Label */}
     <div className="absolute bottom-2 right-2 text-[10px] text-[#848E9C] ">Eat players, steal tokens!</div>
@@ -167,7 +159,7 @@ const CashOutDemo = () => (
     </div>
     {/* Token flying out */}
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-token-fly-out opacity-0">
-      <BNBLogo className="w-6 h-6 text-[#F0B90B]" />
+      <CellFiLogo className="w-6 h-6" />
     </div>
     {/* Key indicator */}
     <div className="absolute top-2 left-2 px-2 py-1 bg-[#2B3139] rounded text-[10px] text-[#F0B90B] font-mono animate-pulse whitespace-nowrap">HOLD C</div>
@@ -400,7 +392,7 @@ function GamePage({
 
         {/* Center: Logo */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <BNBLogo className="w-6 h-6 text-[#F0B90B]" />
+          <CellFiLogo className="w-6 h-6" />
           <span className="font-bold">
             <span className="text-[#F0B90B]">CELL</span>
             <span className="text-white">FI</span>

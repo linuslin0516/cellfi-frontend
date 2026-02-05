@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <linearGradient id="bgBanner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0B0E11"/>
+      <stop offset="50%" style="stop-color:#141821"/>
+      <stop offset="100%" style="stop-color:#0B0E11"/>
+    </linearGradient>
+    <linearGradient id="goldBanner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0B90B"/>
+      <stop offset="100%" style="stop-color:#FFD54F"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#03A66D"/>
+      <stop offset="100%" style="stop-color:#4CAF50"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00B8D9"/>
+      <stop offset="100%" style="stop-color:#4DD0E1"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CF304A"/>
+      <stop offset="100%" style="stop-color:#FF6B6B"/>
+    </linearGradient>
+    <filter id="glowBanner">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="25" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <radialGradient id="orbGlow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#F0B90B;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#F0B90B;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="orbGlow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#03A66D;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#03A66D;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1500" height="500" fill="url(#bgBanner)"/>
+
+  <!-- Grid lines (subtle) -->
+  <line x1="0" y1="100" x2="1500" y2="100" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="0" y1="200" x2="1500" y2="200" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="0" y1="300" x2="1500" y2="300" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="0" y1="400" x2="1500" y2="400" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="300" y1="0" x2="300" y2="500" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="600" y1="0" x2="600" y2="500" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="900" y1="0" x2="900" y2="500" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+  <line x1="1200" y1="0" x2="1200" y2="500" stroke="#2B3139" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Background glow orbs -->
+  <circle cx="350" cy="250" r="250" fill="url(#orbGlow1)"/>
+  <circle cx="1150" cy="300" r="200" fill="url(#orbGlow2)"/>
+
+  <!-- Scattered food dots - left side -->
+  <circle cx="80" cy="120" r="5" fill="#03A66D" opacity="0.5"/>
+  <circle cx="150" cy="80" r="4" fill="#00B8D9" opacity="0.4"/>
+  <circle cx="60" cy="350" r="6" fill="#F0B90B" opacity="0.3"/>
+  <circle cx="200" cy="400" r="4" fill="#CF304A" opacity="0.4"/>
+  <circle cx="120" cy="250" r="5" fill="#03A66D" opacity="0.3"/>
+
+  <!-- Battle scene - left area -->
+  <!-- Big cell chasing small cell -->
+  <circle cx="280" cy="200" r="55" fill="url(#goldBanner)" filter="url(#glowBanner)" opacity="0.85"/>
+  <circle cx="265" cy="185" r="14" fill="white" opacity="0.15"/>
+
+  <!-- Small prey cells -->
+  <circle cx="180" cy="310" r="18" fill="url(#blueGrad)" opacity="0.6"/>
+  <circle cx="175" cy="305" r="5" fill="white" opacity="0.1"/>
+
+  <circle cx="420" cy="150" r="22" fill="url(#redGrad)" opacity="0.5"/>
+  <circle cx="415" cy="145" r="6" fill="white" opacity="0.1"/>
+
+  <circle cx="380" cy="350" r="15" fill="url(#greenGrad)" opacity="0.5"/>
+
+  <!-- Food particles scattered -->
+  <circle cx="500" cy="100" r="4" fill="#F0B90B" opacity="0.5"/>
+  <circle cx="530" cy="380" r="5" fill="#03A66D" opacity="0.4"/>
+  <circle cx="480" cy="280" r="3" fill="#00B8D9" opacity="0.5"/>
+
+  <!-- Center text area -->
+  <!-- CELLFI logo text -->
+  <text x="750" y="210" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="100" letter-spacing="6">
+    <tspan fill="#F0B90B">CELL</tspan><tspan fill="#FFFFFF">FI</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="750" y="270" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="600" font-size="24" fill="#848E9C" letter-spacing="8">
+    EAT . GROW . EARN
+  </text>
+
+  <!-- Subtitle -->
+  <text x="750" y="320" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="18" fill="#5E6673" letter-spacing="2">
+    Play-to-Earn on BNB Smart Chain
+  </text>
+
+  <!-- Feature badges -->
+  <!-- Left badge -->
+  <rect x="530" y="355" width="120" height="36" rx="18" fill="#F0B90B" fill-opacity="0.1" stroke="#F0B90B" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="590" y="379" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="14" fill="#F0B90B">50K Entry</text>
+
+  <!-- Center badge -->
+  <rect x="670" y="355" width="160" height="36" rx="18" fill="#03A66D" fill-opacity="0.1" stroke="#03A66D" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="750" y="379" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="14" fill="#03A66D">100% Pool Share</text>
+
+  <!-- Right badge -->
+  <rect x="850" y="355" width="130" height="36" rx="18" fill="#00B8D9" fill-opacity="0.1" stroke="#00B8D9" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="915" y="379" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="14" fill="#00B8D9">10s Cashout</text>
+
+  <!-- Right side scattered cells -->
+  <circle cx="1100" cy="180" r="30" fill="url(#greenGrad)" opacity="0.5" filter="url(#glowBanner)"/>
+  <circle cx="1093" cy="173" r="8" fill="white" opacity="0.12"/>
+
+  <circle cx="1250" cy="280" r="40" fill="url(#goldBanner)" opacity="0.4" filter="url(#glowBanner)"/>
+  <circle cx="1240" cy="268" r="10" fill="white" opacity="0.1"/>
+
+  <circle cx="1350" cy="140" r="20" fill="url(#blueGrad)" opacity="0.4"/>
+  <circle cx="1180" cy="380" r="16" fill="url(#redGrad)" opacity="0.4"/>
+
+  <!-- More food dots - right side -->
+  <circle cx="1050" cy="100" r="5" fill="#F0B90B" opacity="0.4"/>
+  <circle cx="1400" cy="350" r="4" fill="#03A66D" opacity="0.5"/>
+  <circle cx="1300" cy="420" r="6" fill="#00B8D9" opacity="0.3"/>
+  <circle cx="1430" cy="200" r="5" fill="#CF304A" opacity="0.3"/>
+  <circle cx="1080" cy="420" r="4" fill="#F0B90B" opacity="0.4"/>
+
+  <!-- Bottom border accent -->
+  <rect x="0" y="495" width="1500" height="5" fill="url(#goldBanner)" opacity="0.5"/>
+</svg>

@@ -8,17 +8,9 @@ import Input from '../game/Input';
 import network from '../game/Network';
 import { useLanguage } from '../i18n';
 
-// BNB Logo SVG Component
-const BNBLogo = ({ className = "" }) => (
-  <svg className={className} viewBox="0 0 126.61 126.61" fill="currentColor">
-    <g>
-      <path d="M38.73,53.2l24.59-24.58,24.6,24.6,14.3-14.31L63.32,0,24.42,38.9Z"/>
-      <path d="M0,63.31l14.3-14.31,14.31,14.31L14.3,77.61Z"/>
-      <path d="M38.73,73.41,63.32,98l24.6-24.6,14.31,14.29h0L63.32,126.61,24.42,87.71l-.01-.01Z"/>
-      <path d="M97.99,63.31l14.3-14.31,14.32,14.31-14.31,14.3Z"/>
-      <path d="M77.83,63.3h0L63.32,48.78,52.59,59.51l-1.24,1.23-2.54,2.54,14.51,14.52L77.83,63.32Z"/>
-    </g>
-  </svg>
+// CellFi Logo Component
+const CellFiLogo = ({ className = "", style = {} }) => (
+  <img src="/cellfi-logo.svg" alt="CellFi" className={className} style={style} />
 );
 
 // ========== Mini Demo Animations ==========
@@ -542,7 +534,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 animate-slide-up">
           <div className="stats-card flex gap-8 items-center">
             <div className="flex items-center gap-2">
-              <BNBLogo className="w-5 h-5 text-[#F0B90B]" />
+              <CellFiLogo className="w-5 h-5" />
               <span className="text-[#848E9C] text-sm">Tokens</span>
               <span className="text-[#F0B90B] font-bold text-lg">{gameState.self.tokenBalance}</span>
             </div>
@@ -662,7 +654,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
               </div>
               <div className="bg-[#2B3139]" style={{ width: '1px', height: '20px' }} />
               <div className="flex items-center" style={{ gap: '10px' }}>
-                <BNBLogo className="text-[#F0B90B]" style={{ width: '18px', height: '18px' }} />
+                <CellFiLogo style={{ width: '18px', height: '18px' }} />
                 <span className="text-[#848E9C] hidden sm:inline" style={{ fontSize: '14px' }}>{t('game.pool')}</span>
                 <span className="text-[#F0B90B] font-bold" style={{ fontSize: '16px' }}>{gamePool.toLocaleString()}</span>
               </div>
@@ -730,7 +722,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
               <div className="glass-card" style={{ padding: '56px 48px', maxWidth: '480px' }}>
                 {/* Logo */}
                 <div className="flex items-center justify-center" style={{ gap: '20px', marginBottom: '40px' }}>
-                  <BNBLogo className="text-[#F0B90B] animate-float" style={{ width: '64px', height: '64px' }} />
+                  <CellFiLogo className="animate-float" style={{ width: '64px', height: '64px' }} />
                   <h1 style={{ fontSize: '52px', fontWeight: '900' }}>
                     <span className="bnb-gradient">CELL</span>
                     <span className="text-white">FI</span>
