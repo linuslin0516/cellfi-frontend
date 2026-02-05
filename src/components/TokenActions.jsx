@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, useChainId } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
 import { bscTestnet } from 'wagmi/chains';
-import { CONTRACTS, AGAR_TOKEN_ABI } from '../config';
+import { CONTRACTS, AGAR_TOKEN_ABI, SERVER_URL } from '../config';
 import network from '../game/Network';
 
 /**
@@ -62,7 +62,7 @@ function TokenActions({ onJoinGame }) {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/config');
+        const response = await fetch(`${SERVER_URL}/api/config`);
         const data = await response.json();
         setEscrowAddress(data.escrowAddress);
         setEntryFee(data.entryFee || 50000);
@@ -75,7 +75,7 @@ function TokenActions({ onJoinGame }) {
     // 獲取遊戲池資訊
     const fetchPool = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/pool');
+        const response = await fetch(`${SERVER_URL}/api/pool`);
         const data = await response.json();
         setGamePool(data.gamePool || 0);
       } catch (error) {

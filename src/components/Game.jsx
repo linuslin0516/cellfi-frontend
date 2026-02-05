@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAccount, useWriteContract, useReadContract, useWaitForTransactionReceipt, useChainId, useWalletClient } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
 import { bscTestnet } from 'wagmi/chains';
-import { CONTRACTS, CELL_TOKEN_ABI } from '../config';
+import { CONTRACTS, CELL_TOKEN_ABI, SERVER_URL } from '../config';
 import Renderer from '../game/Renderer';
 import Input from '../game/Input';
 import network from '../game/Network';
@@ -172,7 +172,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/config');
+        const response = await fetch(`${SERVER_URL}/api/config`);
         const data = await response.json();
         console.log('[DEBUG] Server config:', data);
         console.log('[DEBUG] Escrow address from server:', data.escrowAddress);
@@ -186,7 +186,7 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
 
     const fetchPool = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/pool');
+        const response = await fetch(`${SERVER_URL}/api/pool`);
         const data = await response.json();
         setGamePool(data.gamePool || 0);
         setOnlinePlayers(data.playerCount || Math.floor(Math.random() * 15) + 3);
