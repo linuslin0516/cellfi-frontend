@@ -81,21 +81,6 @@ const FloatingCellsBackground = () => (
 // Coming Soon mode - controlled by environment variable
 const IS_COMING_SOON = import.meta.env.VITE_COMING_SOON === 'true';
 
-// Mock data for leaderboard and recent wins
-const MOCK_LEADERBOARD = [
-  { rank: 1, name: 'CryptoKing', earnings: 2450000 },
-  { rank: 2, name: 'BNBWhale', earnings: 1820000 },
-  { rank: 3, name: 'CellMaster', earnings: 1350000 },
-  { rank: 4, name: 'DeFiHunter', earnings: 980000 },
-  { rank: 5, name: 'TokenEater', earnings: 750000 },
-];
-
-const MOCK_RECENT_WINS = [
-  { name: 'Player_X92', amount: 125000, time: '2m ago' },
-  { name: 'CryptoNinja', amount: 87500, time: '5m ago' },
-  { name: 'BNBFan', amount: 62000, time: '8m ago' },
-  { name: 'CellPro', amount: 156000, time: '12m ago' },
-];
 
 /**
  * 遊戲主組件 - 整合付款流程
@@ -121,6 +106,10 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
   const [paymentStep, setPaymentStep] = useState('idle'); // idle, checking, approve, transfer, joining
   const [onlinePlayers, setOnlinePlayers] = useState(0);
   const [totalVolume, setTotalVolume] = useState(12500000); // Mock total volume
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [recentWins, setRecentWins] = useState([]);
+  const [roomId, setRoomId] = useState(null);
+  const [roomType, setRoomType] = useState(null);
 
   // Wagmi hooks
   const { isConnected, connector } = useAccount();
@@ -196,6 +185,30 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
       }
     };
     fetchPool();
+
+    // 獲取排行榜
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch(`${SERVER_URL}/api/leaderboard`);
+        const data = await response.json();
+        setLeaderboard(data);
+      } catch (error) {
+        console.error('Failed to fetch leaderboard:', error);
+      }
+    };
+    fetchLeaderboard();
+
+    // 獲取最近獲獎
+    const fetchRecentWins = async () => {
+      try {
+        const response = await fetch(`${SERVER_URL}/api/recent-wins`);
+        const data = await response.json();
+        setRecentWins(data);
+      } catch (error) {
+        console.error('Failed to fetch recent wins:', error);
+      }
+    };
+    fetchRecentWins();
 
     // 定期更新 pool
     const interval = setInterval(fetchPool, 5000);
@@ -284,6 +297,8 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
 
     network.onStateUpdate = (state) => {
       setGameState(state);
+      if (state?.leaderboard) setLeaderboard(state.leaderboard);
+      if (state?.recentWins) setRecentWins(state.recentWins);
       if (state?.self) {
         const mass = Math.floor(state.self.score || 0);
         const MIN_CASHOUT = 10000;
@@ -299,6 +314,10 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
       setIsPlaying(true);
       setPaymentStep('idle');
       setMessage('');
+      setRoomId(data.roomId || null);
+      setRoomType(data.roomType || null);
+      if (data.leaderboard) setLeaderboard(data.leaderboard);
+      if (data.recentWins) setRecentWins(data.recentWins);
       resetApprove?.();
       resetTransfer?.();
       setSystemMessage(`Joined! Initial mass: ${data.initialMass?.toLocaleString() || '?'} | Pool: ${data.gamePool?.toLocaleString() || '?'} CELL`);
@@ -335,6 +354,13 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
       setCashOutInfo(null);
       refetchBalance();
       if (onCashOut) onCashOut(data);
+    };
+
+    network.onRecentWin = (data) => {
+      setRecentWins(prev => [
+        { name: data.name, amount: data.amount, time: 'Just now', isGuest: data.isGuest },
+        ...prev.slice(0, 9)
+      ]);
     };
 
     network.socket?.on('cashoutStarted', (data) => {
@@ -533,6 +559,14 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
       {isPlaying && gameState?.self && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 animate-slide-up">
           <div className="stats-card flex gap-8 items-center">
+            {roomType === 'guest' && (
+              <>
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-1 rounded-md bg-[#848E9C]/20 border border-[#848E9C]/30 text-[#848E9C] text-xs font-bold uppercase">Guest</span>
+                </div>
+                <div className="w-px h-6 bg-[#2B3139]" />
+              </>
+            )}
             <div className="flex items-center gap-2">
               <CellFiLogo className="w-5 h-5" />
               <span className="text-[#848E9C] text-sm">Tokens</span>
@@ -934,22 +968,24 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                     <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>{t('game.leaderboard')}</h3>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {MOCK_LEADERBOARD.map((player) => (
-                      <div key={player.rank} className="flex items-center rounded-lg hover:bg-[#2B3139]/50 transition-colors" style={{ gap: '14px', padding: '12px 14px' }}>
+                    {leaderboard.length > 0 ? leaderboard.map((player, idx) => (
+                      <div key={idx} className="flex items-center rounded-lg hover:bg-[#2B3139]/50 transition-colors" style={{ gap: '14px', padding: '12px 14px' }}>
                         <div className={`rounded-full flex items-center justify-center font-bold ${
-                          player.rank === 1 ? 'bg-[#FFD700] text-black' :
-                          player.rank === 2 ? 'bg-[#C0C0C0] text-black' :
-                          player.rank === 3 ? 'bg-[#CD7F32] text-white' :
+                          idx === 0 ? 'bg-[#FFD700] text-black' :
+                          idx === 1 ? 'bg-[#C0C0C0] text-black' :
+                          idx === 2 ? 'bg-[#CD7F32] text-white' :
                           'bg-[#2B3139] text-[#848E9C]'
                         }`} style={{ width: '32px', height: '32px', fontSize: '13px' }}>
-                          {player.rank}
+                          {idx + 1}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-white font-medium truncate" style={{ fontSize: '15px' }}>{player.name}</div>
                         </div>
-                        <div className="text-[#F0B90B] font-bold" style={{ fontSize: '14px' }}>{(player.earnings / 1000).toFixed(0)}K</div>
+                        <div className="text-[#F0B90B] font-bold" style={{ fontSize: '14px' }}>{player.score >= 1000 ? (player.score / 1000).toFixed(0) + 'K' : player.score}</div>
                       </div>
-                    ))}
+                    )) : (
+                      <div className="text-[#5E6673] text-center" style={{ padding: '20px', fontSize: '14px' }}>No players yet</div>
+                    )}
                   </div>
                 </div>
 
@@ -960,18 +996,20 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
                     <h3 className="text-white font-semibold" style={{ fontSize: '17px' }}>{t('game.recentWins')}</h3>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {MOCK_RECENT_WINS.map((win, idx) => (
+                    {recentWins.length > 0 ? recentWins.map((win, idx) => (
                       <div key={idx} className="flex items-center" style={{ gap: '14px' }}>
-                        <div className="rounded-full bg-gradient-to-br from-[#03A66D] to-[#4CAF50] flex items-center justify-center" style={{ width: '40px', height: '40px' }}>
-                          <span className="text-white" style={{ fontSize: '14px' }}>✓</span>
+                        <div className={`rounded-full flex items-center justify-center ${win.isGuest ? 'bg-gradient-to-br from-[#848E9C] to-[#5E6673]' : 'bg-gradient-to-br from-[#03A66D] to-[#4CAF50]'}`} style={{ width: '40px', height: '40px' }}>
+                          <span className="text-white" style={{ fontSize: '14px' }}>{win.isGuest ? 'G' : '✓'}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-white font-medium truncate" style={{ fontSize: '15px' }}>{win.name}</div>
-                          <div className="text-[#5E6673]" style={{ fontSize: '13px' }}>{win.time}</div>
+                          <div className="text-[#5E6673]" style={{ fontSize: '13px' }}>{win.time || win.timeAgo || 'Just now'}</div>
                         </div>
-                        <div className="text-[#03A66D] font-bold" style={{ fontSize: '15px' }}>+{(win.amount / 1000).toFixed(0)}K</div>
+                        <div className="text-[#03A66D] font-bold" style={{ fontSize: '15px' }}>+{win.amount >= 1000 ? (win.amount / 1000).toFixed(0) + 'K' : win.amount}</div>
                       </div>
-                    ))}
+                    )) : (
+                      <div className="text-[#5E6673] text-center" style={{ padding: '20px', fontSize: '14px' }}>No wins yet</div>
+                    )}
                   </div>
                 </div>
 

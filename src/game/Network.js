@@ -10,6 +10,8 @@ class Network {
     this.socket = null;
     this.connected = false;
     this.playerId = null;
+    this.roomId = null;
+    this.roomType = null;
 
     // 回調函數
     this.onStateUpdate = null;
@@ -20,6 +22,7 @@ class Network {
     this.onPlayerDeath = null;
     this.onEntryFeeInfo = null;
     this.onVerifying = null;
+    this.onRecentWin = null;
   }
 
   /**
@@ -60,6 +63,8 @@ class Network {
     socket.on('joined', (data) => {
       console.log('Joined game:', data);
       this.playerId = data.playerId;
+      this.roomId = data.roomId || null;
+      this.roomType = data.roomType || null;
       if (this.onJoined) this.onJoined(data);
     });
 
@@ -106,6 +111,10 @@ class Network {
     socket.on('verifying', (data) => {
       console.log('Verifying payment:', data);
       if (this.onVerifying) this.onVerifying(data);
+    });
+
+    socket.on('recentWin', (data) => {
+      if (this.onRecentWin) this.onRecentWin(data);
     });
   }
 
