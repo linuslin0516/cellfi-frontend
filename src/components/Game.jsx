@@ -85,7 +85,7 @@ const IS_COMING_SOON = import.meta.env.VITE_COMING_SOON === 'true';
 /**
  * 遊戲主組件 - 整合付款流程
  */
-function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onExit }) {
+function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCashOut, onExit }) {
   const { t } = useLanguage();
   const canvasRef = useRef(null);
   const rendererRef = useRef(null);
@@ -356,6 +356,15 @@ function Game({ address, playerName: initialPlayerName, onDeath, onCashOut, onEx
     if (!address) {
       setMessage('Please connect your wallet first');
       setMessageType('error');
+      return;
+    }
+
+    // 訪客模式：跳過錢包驗證，直接加入遊戲
+    if (isGuest) {
+      setPaymentStep('joining');
+      setMessage('Joining as guest...');
+      setMessageType('info');
+      network.join(address, playerName);
       return;
     }
 
