@@ -26,7 +26,6 @@ class Input {
     this.onMove = null;
     this.onCashOutStart = null;
     this.onCashOutCancel = null;
-    this.onUpgrade = null;
     this.onSplit = null;
 
     this.setupListeners();
@@ -80,14 +79,6 @@ class Input {
         if (this.onCashOutStart) {
           this.onCashOutStart();
         }
-      }
-
-      // 升級快捷鍵
-      if (e.code === 'Digit1' && this.onUpgrade) {
-        this.onUpgrade('speed');
-      }
-      if (e.code === 'Digit2' && this.onUpgrade) {
-        this.onUpgrade('shield');
       }
 
       // 分裂快捷鍵 (空白鍵) - 只在第一次按下時觸發

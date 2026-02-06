@@ -91,10 +91,6 @@ class Network {
       if (this.onPlayerDeath) this.onPlayerDeath(data);
     });
 
-    socket.on('upgradeSuccess', (data) => {
-      console.log('Upgrade success:', data);
-    });
-
     socket.on('cashoutStarted', (data) => {
       console.log('Cash out started:', data);
     });
@@ -163,14 +159,6 @@ class Network {
   move(x, y) {
     if (!this.socket || !this.connected) return;
     this.socket.emit('move', { x, y });
-  }
-
-  /**
-   * 購買升級
-   */
-  upgrade(type) {
-    if (!this.socket || !this.connected) return;
-    this.socket.emit('upgrade', { type });
   }
 
   /**

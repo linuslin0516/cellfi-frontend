@@ -242,10 +242,6 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
       network.cancelCashOut();
     };
 
-    input.onUpgrade = (type) => {
-      network.upgrade(type);
-    };
-
     input.onSplit = () => {
       network.split();
     };
@@ -634,44 +630,22 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
         </div>
       )}
 
-      {/* 升級商店 */}
-      {isPlaying && (
-        <div className="absolute bottom-6 left-6 animate-slide-up">
-          <div className="glass-card p-4">
-            <h3 className="text-sm font-bold text-[#848E9C] mb-3 uppercase tracking-wider">Upgrades</h3>
-            <div className="flex gap-3">
-              <button
-                onClick={() => network.upgrade('speed')}
-                className="group flex items-center gap-2 bg-[#1E2329] hover:bg-[#2B3139] border border-[#2B3139] hover:border-[#F0B90B] px-4 py-3 rounded-lg transition-all duration-200"
-              >
-                <span className="text-xl">⚡</span>
-                <div className="text-left">
-                  <div className="text-[#F0B90B] font-semibold text-sm">[1] Speed</div>
-                  <div className="text-[#848E9C] text-xs">+30% for 60s</div>
-                </div>
-              </button>
-              <button
-                onClick={() => network.upgrade('shield')}
-                className="group flex items-center gap-2 bg-[#1E2329] hover:bg-[#2B3139] border border-[#2B3139] hover:border-[#00B8D9] px-4 py-3 rounded-lg transition-all duration-200"
-              >
-                <span className="text-xl">🛡️</span>
-                <div className="text-left">
-                  <div className="text-[#00B8D9] font-semibold text-sm">[2] Shield</div>
-                  <div className="text-[#848E9C] text-xs">Block 1 hit</div>
-                </div>
-              </button>
-            </div>
-            <div className="mt-3 flex items-center gap-2 text-xs text-[#848E9C]">
-              <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono">C</kbd>
-              <span>Hold 10 seconds to Cash Out</span>
-            </div>
+      {/* 快捷鍵提示 */}
+      {isPlaying && !gameState?.self?.isCashingOut && (
+        <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-slide-up">
+          <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1E2329]/80 border border-[#2B3139]">
+            <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">C</kbd>
+            <span className="text-[#848E9C] text-xs">Hold to Cash Out</span>
+            <span className="mx-1 text-[#2B3139]">|</span>
+            <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">Space</kbd>
+            <span className="text-[#848E9C] text-xs">Split</span>
           </div>
         </div>
       )}
 
       {/* Cash Out 進度提示 */}
       {isPlaying && gameState?.self?.isCashingOut && (
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-scale-in z-50">
+        <div className="absolute bottom-14 left-1/2 transform -translate-x-1/2 animate-scale-in z-50">
           <div className="glass-card p-4 text-center min-w-[300px]">
             <div className="text-[#F0B90B] font-bold mb-2">CASHING OUT...</div>
             <div className="progress-bar">
