@@ -360,7 +360,15 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
       setPaymentStep('joining');
       setMessage('Joining as guest...');
       setMessageType('info');
-      network.join(address, playerName);
+      // 等待 socket 連線後再 join
+      const tryJoin = () => {
+        if (network.connected) {
+          network.join(address, playerName);
+        } else {
+          setTimeout(tryJoin, 200);
+        }
+      };
+      tryJoin();
       return;
     }
 
