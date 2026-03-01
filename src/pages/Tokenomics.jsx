@@ -25,7 +25,7 @@ function Tokenomics() {
               </div>
               <div className="flex justify-between items-center py-2.5 border-b border-[#2B3139]">
                 <span className="text-[#848E9C] text-sm">{t('tokenomics.symbol')}</span>
-                <span className="text-[#F0B90B] font-medium text-sm">CELL</span>
+                <span className="text-[#F0B90B] font-medium text-sm">$细胞</span>
               </div>
               <div className="flex justify-between items-center py-2.5 border-b border-[#2B3139]">
                 <span className="text-[#848E9C] text-sm">{t('tokenomics.network')}</span>
