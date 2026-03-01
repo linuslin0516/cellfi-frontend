@@ -37,7 +37,7 @@ function Tokenomics() {
               </div>
               <div className="flex justify-between items-center py-2.5">
                 <span className="text-[#848E9C] text-sm">{t('tokenomics.transferTax')}</span>
-                <span className="text-[#F0B90B] font-medium text-sm">3%</span>
+                <span className="text-[#F0B90B] font-medium text-sm">1%</span>
               </div>
             </div>
           </div>
