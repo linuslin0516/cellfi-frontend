@@ -468,7 +468,7 @@ function WalletConnect({ onConnect }) {
           </div>
           {cellBalance && (
             <div className="text-xs text-[#F0B90B] font-medium">
-              {parseFloat(formatEther(cellBalance)).toLocaleString()} CELL
+              {parseFloat(formatEther(cellBalance)).toLocaleString()} $细胞
             </div>
           )}
           {balance && balance.value !== undefined && (

@@ -17,7 +17,7 @@ export const translations = {
       title: '吃掉对手，',
       titleHighlight: '赚取代币',
       subtitle: '经典 .io 游戏与区块链的结合。吃掉其他玩家，变大，',
-      subtitleHighlight: '提现真实 CELL 代币',
+      subtitleHighlight: '提现真实 $细胞',
       playNow: '立即游戏',
       tryFree: '免费试玩',
       guestModeDesc: '访客模式：无需钱包，无真实代币',
@@ -33,7 +33,7 @@ export const translations = {
       gameOver: '游戏结束！',
       cashOutSuccess: '提现成功！',
       eatenBy: '你被 {player} 吃掉了',
-      earned: '你获得了 {amount} CELL',
+      earned: '你获得了 {amount} $细胞',
       stats: {
         players: '在线玩家',
         pool: '奖池',
@@ -100,9 +100,9 @@ export const translations = {
         yourBalance: '你的余额',
         enterName: '输入你的名字',
         approving: '授权中...',
-        approveCELL: '授权 CELL',
+        approveCELL: '授权 $细胞',
         processing: '处理中...',
-        payAndJoin: '支付 {amount} CELL 并加入',
+        payAndJoin: '支付 {amount} $细胞 并加入',
         joining: '加入游戏中...',
         cancel: '取消',
       },
@@ -128,7 +128,7 @@ export const translations = {
       steps: {
         pay: {
           title: '1. 支付入场',
-          desc: '连接钱包，支付 50,000 CELL 入场',
+          desc: '连接钱包，支付 50,000 $细胞 入场',
         },
         eat: {
           title: '2. 吃球成长',
@@ -168,7 +168,7 @@ export const translations = {
     tokenomics: {
       badge: '代币',
       title: '代币经济',
-      subtitle: 'CELL 代币经济模型',
+      subtitle: '$细胞 代币经济模型',
       tokenInfo: '代币信息',
       name: '名称',
       symbol: '符号',
@@ -185,7 +185,7 @@ export const translations = {
       supply: {
         title: '总供应量',
         amount: '10亿',
-        symbol: 'CELL',
+        symbol: '$细胞',
       },
       distribution: {
         title: '代币分配',
@@ -214,12 +214,12 @@ export const translations = {
       sections: {
         intro: {
           title: '项目简介',
-          content: 'CellFi 是一款建立在 BNB Smart Chain 上的 Play-to-Earn 游戏，结合了经典 .io 游戏的趣味性与区块链技术。玩家在实时 PvP 对战中竞争，通过吃掉更小的玩家来变大，同时在过程中用 CELL 代币冒险。',
+          content: 'CellFi 是一款建立在 BNB Smart Chain 上的 Play-to-Earn 游戏，结合了经典 .io 游戏的趣味性与区块链技术。玩家在实时 PvP 对战中竞争，通过吃掉更小的玩家来变大，同时在过程中用 $细胞 冒险。',
         },
         gameplay: {
           title: '游戏机制',
           entryFee: '入场费：',
-          entryFeeDesc: '玩家支付 50,000 CELL 进入游戏竞技场。',
+          entryFeeDesc: '玩家支付 50,000 $细胞 进入游戏竞技场。',
           poolSystem: '奖池系统：',
           poolSystemDesc: '100% 的入场费进入游戏奖池。',
           pvpCombat: 'PvP 对战：',
@@ -285,7 +285,7 @@ export const translations = {
       title: '吃掉對手，',
       titleHighlight: '賺取代幣',
       subtitle: '經典 .io 遊戲與區塊鏈的結合。吃掉其他玩家，變大，',
-      subtitleHighlight: '提現真實 CELL 代幣',
+      subtitleHighlight: '提現真實 $细胞',
       playNow: '立即遊戲',
       tryFree: '免費試玩',
       guestModeDesc: '訪客模式：無需錢包，無真實代幣',
@@ -300,7 +300,7 @@ export const translations = {
       gameOver: '遊戲結束！',
       cashOutSuccess: '提現成功！',
       eatenBy: '你被 {player} 吃掉了',
-      earned: '你獲得了 {amount} CELL',
+      earned: '你獲得了 {amount} $细胞',
       stats: {
         players: '在線玩家',
         pool: '獎池',
@@ -363,9 +363,9 @@ export const translations = {
         yourBalance: '你的餘額',
         enterName: '輸入你的名字',
         approving: '授權中...',
-        approveCELL: '授權 CELL',
+        approveCELL: '授權 $细胞',
         processing: '處理中...',
-        payAndJoin: '支付 {amount} CELL 並加入',
+        payAndJoin: '支付 {amount} $细胞 並加入',
         joining: '加入遊戲中...',
         cancel: '取消',
       },
@@ -389,7 +389,7 @@ export const translations = {
       steps: {
         pay: {
           title: '1. 支付入場',
-          desc: '連接錢包，支付 50,000 CELL 入場',
+          desc: '連接錢包，支付 50,000 $细胞 入場',
         },
         eat: {
           title: '2. 吃球成長',
@@ -428,7 +428,7 @@ export const translations = {
     tokenomics: {
       badge: '代幣',
       title: '代幣經濟',
-      subtitle: 'CELL 代幣經濟模型',
+      subtitle: '$细胞 代幣經濟模型',
       tokenInfo: '代幣信息',
       name: '名稱',
       symbol: '符號',
@@ -473,12 +473,12 @@ export const translations = {
       sections: {
         intro: {
           title: '項目簡介',
-          content: 'CellFi 是一款建立在 BNB Smart Chain 上的 Play-to-Earn 遊戲，結合了經典 .io 遊戲的趣味性與區塊鏈技術。玩家在實時 PvP 對戰中競爭，通過吃掉更小的玩家來變大，同時在過程中用 CELL 代幣冒險。',
+          content: 'CellFi 是一款建立在 BNB Smart Chain 上的 Play-to-Earn 遊戲，結合了經典 .io 遊戲的趣味性與區塊鏈技術。玩家在實時 PvP 對戰中競爭，通過吃掉更小的玩家來變大，同時在過程中用 $细胞 冒險。',
         },
         gameplay: {
           title: '遊戲機制',
           entryFee: '入場費：',
-          entryFeeDesc: '玩家支付 50,000 CELL 進入遊戲競技場。',
+          entryFeeDesc: '玩家支付 50,000 $细胞 進入遊戲競技場。',
           poolSystem: '獎池系統：',
           poolSystemDesc: '100% 的入場費進入遊戲獎池。',
           pvpCombat: 'PvP 對戰：',
@@ -542,7 +542,7 @@ export const translations = {
       title: 'Eat opponents, ',
       titleHighlight: 'Earn tokens',
       subtitle: 'The classic .io game meets blockchain. Consume other players, grow bigger, and ',
-      subtitleHighlight: 'cash out real CELL tokens',
+      subtitleHighlight: 'cash out real $细胞',
       playNow: 'Play Now',
       tryFree: 'Try Free',
       guestModeDesc: 'Guest mode: No wallet needed, no real tokens',
@@ -557,7 +557,7 @@ export const translations = {
       gameOver: 'Game Over!',
       cashOutSuccess: 'Cash Out Success!',
       eatenBy: 'You were eaten by {player}',
-      earned: 'You earned {amount} CELL',
+      earned: 'You earned {amount} $细胞',
       stats: {
         players: 'Online Players',
         pool: 'Prize Pool',
@@ -620,9 +620,9 @@ export const translations = {
         yourBalance: 'Your Balance',
         enterName: 'Enter your name',
         approving: 'Approving...',
-        approveCELL: 'Approve CELL',
+        approveCELL: 'Approve $细胞',
         processing: 'Processing...',
-        payAndJoin: 'Pay {amount} CELL & Join',
+        payAndJoin: 'Pay {amount} $细胞 & Join',
         joining: 'Joining game...',
         cancel: 'Cancel',
       },
@@ -646,7 +646,7 @@ export const translations = {
       steps: {
         pay: {
           title: '1. Pay Entry',
-          desc: 'Connect wallet and pay 50,000 CELL to enter',
+          desc: 'Connect wallet and pay 50,000 $细胞 to enter',
         },
         eat: {
           title: '2. Eat & Grow',
@@ -730,12 +730,12 @@ export const translations = {
       sections: {
         intro: {
           title: 'Introduction',
-          content: 'CellFi is a Play-to-Earn game built on BNB Smart Chain that combines the addictive gameplay of classic .io games with blockchain technology. Players compete in real-time PvP battles, consuming smaller players to grow larger while risking their CELL tokens in the process.',
+          content: 'CellFi is a Play-to-Earn game built on BNB Smart Chain that combines the addictive gameplay of classic .io games with blockchain technology. Players compete in real-time PvP battles, consuming smaller players to grow larger while risking their $细胞 in the process.',
         },
         gameplay: {
           title: 'Game Mechanics',
           entryFee: 'Entry Fee:',
-          entryFeeDesc: 'Players pay 50,000 CELL to enter the game arena.',
+          entryFeeDesc: 'Players pay 50,000 $细胞 to enter the game arena.',
           poolSystem: 'Pool System:',
           poolSystemDesc: '100% of entry fees go into the game pool.',
           pvpCombat: 'PvP Combat:',
