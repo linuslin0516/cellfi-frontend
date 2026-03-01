@@ -139,6 +139,30 @@ class Input {
   getMousePosition() {
     return { x: this.mouseX, y: this.mouseY };
   }
+
+  /**
+   * 獲取 WASD / 方向鍵的移動方向 (標準化)
+   * 返回 { dx, dy }，範圍 -1 ~ 1
+   */
+  getWASDDirection() {
+    const right = (this.keys['KeyD'] || this.keys['ArrowRight']) ? 1 : 0;
+    const left  = (this.keys['KeyA'] || this.keys['ArrowLeft'])  ? 1 : 0;
+    const down  = (this.keys['KeyS'] || this.keys['ArrowDown'])  ? 1 : 0;
+    const up    = (this.keys['KeyW'] || this.keys['ArrowUp'])    ? 1 : 0;
+    return { dx: right - left, dy: down - up };
+  }
+
+  /**
+   * 是否有任何 WASD / 方向鍵被按住
+   */
+  isWASDActive() {
+    return !!(
+      this.keys['KeyW'] || this.keys['KeyA'] ||
+      this.keys['KeyS'] || this.keys['KeyD'] ||
+      this.keys['ArrowUp'] || this.keys['ArrowLeft'] ||
+      this.keys['ArrowDown'] || this.keys['ArrowRight']
+    );
+  }
 }
 
 export default Input;

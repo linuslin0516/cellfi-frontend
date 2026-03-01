@@ -91,6 +91,7 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
   const rendererRef = useRef(null);
   const inputRef = useRef(null);
   const animationRef = useRef(null);
+  const gameStateRef = useRef(null);
   const [gameState, setGameState] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [message, setMessage] = useState('');
@@ -248,6 +249,7 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
     network.connect();
 
     network.onStateUpdate = (state) => {
+      gameStateRef.current = state;
       setGameState(state);
       if (state?.leaderboard) setLeaderboard(state.leaderboard);
       if (state?.recentWins) setRecentWins(state.recentWins);
@@ -333,9 +335,29 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
 
     gameLoop();
 
+    // WASD 移動輪詢 (20Hz)
+    const wasdInterval = setInterval(() => {
+      const input = inputRef.current;
+      const state = gameStateRef.current;
+      if (!input || !state?.self || !state.self.isAlive) return;
+      // 如果使用者在輸入框中打字，不攔截 WASD
+      if (document.activeElement?.tagName === 'INPUT') return;
+      if (!input.isWASDActive()) return;
+
+      const { dx, dy } = input.getWASDDirection();
+      if (dx === 0 && dy === 0) return;
+
+      const len = Math.sqrt(dx * dx + dy * dy);
+      const WASD_DISTANCE = 400;
+      const targetX = state.self.x + (dx / len) * WASD_DISTANCE;
+      const targetY = state.self.y + (dy / len) * WASD_DISTANCE;
+      network.move(targetX, targetY);
+    }, 50);
+
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationRef.current);
+      clearInterval(wasdInterval);
       network.disconnect();
     };
   }, []);
@@ -641,11 +663,14 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
       {isPlaying && !gameState?.self?.isCashingOut && (
         <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-slide-up">
           <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1E2329]/80 border border-[#2B3139]">
-            <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">C</kbd>
-            <span className="text-[#848E9C] text-xs">Hold to Cash Out</span>
+            <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">WASD</kbd>
+            <span className="text-[#848E9C] text-xs">Move</span>
             <span className="mx-1 text-[#2B3139]">|</span>
             <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">Space</kbd>
             <span className="text-[#848E9C] text-xs">Split</span>
+            <span className="mx-1 text-[#2B3139]">|</span>
+            <kbd className="px-2 py-1 bg-[#2B3139] rounded text-[#F0B90B] font-mono text-xs">C</kbd>
+            <span className="text-[#848E9C] text-xs">Cash Out</span>
           </div>
         </div>
       )}
