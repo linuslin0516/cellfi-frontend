@@ -27,7 +27,7 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
   const { t } = useLanguage();
 
   const handlePlayClick = () => {
-    onStartGame();
+    onGuestPlay();
     navigate('/play');
   };
 
@@ -135,14 +135,6 @@ function Home({ address, gameResult, setGameResult, playerName, setPlayerName, o
                   <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" stroke="none"/>
                   </svg>
-                  {t('home.playNow')}
-                </button>
-
-                <button
-                  onClick={handleGuestClick}
-                  className="secondary-button py-3.5 flex items-center justify-center gap-2"
-                >
-                  <span>👤</span>
                   {t('home.tryFree')}
                 </button>
               </div>

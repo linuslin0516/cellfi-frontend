@@ -13,7 +13,7 @@ export const translations = {
     },
     // 首页
     home: {
-      badge: 'BSC 测试网运行中',
+      badge: 'BSC 主网运行中',
       title: '吃掉对手，',
       titleHighlight: '赚取代币',
       subtitle: '经典 .io 游戏与区块链的结合。吃掉其他玩家，变大，',
@@ -281,7 +281,7 @@ export const translations = {
       play: '開始遊戲',
     },
     home: {
-      badge: 'BSC 測試網運行中',
+      badge: 'BSC 主網運行中',
       title: '吃掉對手，',
       titleHighlight: '賺取代幣',
       subtitle: '經典 .io 遊戲與區塊鏈的結合。吃掉其他玩家，變大，',
@@ -538,7 +538,7 @@ export const translations = {
       play: 'Play',
     },
     home: {
-      badge: 'Live on BSC Testnet',
+      badge: 'Live on BSC Mainnet',
       title: 'Eat opponents, ',
       titleHighlight: 'Earn tokens',
       subtitle: 'The classic .io game meets blockchain. Consume other players, grow bigger, and ',

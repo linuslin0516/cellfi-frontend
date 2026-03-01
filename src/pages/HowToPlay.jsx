@@ -87,47 +87,6 @@ function HowToPlay() {
                 <div className="text-[#5E6673] text-xs">{t('howToPlay.controlsList.holdCAction')}</div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <kbd className="w-10 h-10 rounded-lg bg-[#2B3139] flex items-center justify-center text-[#F0B90B] font-mono text-sm shrink-0">
-                1/2
-              </kbd>
-              <div>
-                <div className="text-white text-sm font-medium">{t('howToPlay.controlsList.keys12')}</div>
-                <div className="text-[#5E6673] text-xs">{t('howToPlay.controlsList.keys12Action')}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Power-ups */}
-        <div>
-          <h3 className="text-lg font-semibold text-white text-center" style={{ marginBottom: '20px' }}>{t('howToPlay.powerups')}</h3>
-          <div className="grid md:grid-cols-2" style={{ gap: '20px' }}>
-            <div className="glass-card p-5 flex items-center gap-4 glass-card-hover">
-              <div className="w-12 h-12 rounded-xl bg-[#F0B90B]/20 flex items-center justify-center text-xl shrink-0">
-                ⚡
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <h4 className="text-[#F0B90B] font-semibold text-sm">{t('howToPlay.speedBoost.title')}</h4>
-                  <kbd className="px-1.5 py-0.5 bg-[#2B3139] rounded text-[#5E6673] text-[10px] font-mono">1</kbd>
-                </div>
-                <p className="text-[#848E9C] text-xs">{t('howToPlay.speedBoost.desc')}</p>
-              </div>
-            </div>
-
-            <div className="glass-card p-5 flex items-center gap-4 glass-card-hover">
-              <div className="w-12 h-12 rounded-xl bg-[#00B8D9]/20 flex items-center justify-center text-xl shrink-0">
-                🛡️
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <h4 className="text-[#00B8D9] font-semibold text-sm">{t('howToPlay.shieldAbility.title')}</h4>
-                  <kbd className="px-1.5 py-0.5 bg-[#2B3139] rounded text-[#5E6673] text-[10px] font-mono">2</kbd>
-                </div>
-                <p className="text-[#848E9C] text-xs">{t('howToPlay.shieldAbility.desc')}</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
