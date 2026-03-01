@@ -167,10 +167,9 @@ function Game({ address, playerName: initialPlayerName, isGuest, onDeath, onCash
         const response = await fetch(`${SERVER_URL}/api/pool`);
         const data = await response.json();
         setGamePool(data.gamePool || 0);
-        setOnlinePlayers(data.playerCount || Math.floor(Math.random() * 15) + 3);
+        setOnlinePlayers(data.playerCount ?? 0);
       } catch (error) {
-        console.error('Failed to fetch pool:', error);
-        setOnlinePlayers(Math.floor(Math.random() * 15) + 3);
+        setOnlinePlayers(0);
       }
     };
     fetchPool();
